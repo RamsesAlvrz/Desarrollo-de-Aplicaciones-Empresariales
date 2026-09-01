@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Citas Médicas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h2 text-primary fw-bold">Clínica Salud & Vida</h1>
+                <p class="text-muted mb-0">Módulo de Gestión de Citas Médicas</p>
+            </div>
+            <!-- Botón para ir al formulario -->
+            <a href="{% url 'citas:create' %}" class="btn btn-primary fw-bold">+ Nueva Cita</a>
+        </div>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-0">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="ps-3">#</th>
+                            <th>Paciente</th>
+                            <th>Médico</th>
+                            <th>Especialidad</th>
+                            <th>Fecha y Hora</th>
+                            <th class="text-center">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cita in citas %}
+                        <tr>
+                            <td class="ps-3 fw-bold">{{ cita.id }}</td>
+                            <td>{{ cita.paciente }}</td>
+                            <td>{{ cita.medico }}</td>
+                            <td><span class="badge bg-info text-dark">{{ cita.especialidad }}</span></td>
+                            <td>{{ cita.fecha_hora }}</td>
+                            <td class="text-center">
+                                {% if cita.estado == 'Confirmada' %}
+                                    <span class="badge bg-success">Confirmada</span>
+                                {% elif cita.estado == 'Pendiente' %}
+                                    <span class="badge bg-warning text-dark">Pendiente</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">{{ cita.estado }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-4 text-muted">
+                                No hay citas médicas registradas en el sistema.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
